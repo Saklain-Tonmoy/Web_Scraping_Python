@@ -28,7 +28,13 @@ def storeBestHotels(name, image, location, neighbor, price, stars, score, amenit
         print(mycursor.rowcount, " record stored")
         print()
     else:
-        print("Data already exists")
+        for x in myresult:
+            sqlQuery = "UPDATE best_hotels SET name = %(name)s, image = %(image)s, location = %(location)s, neighborhoodName = %(neighbor)s, price = %(price)s, stars = %(stars)s, score = %(score)s, amenities = %(amenities)s WHERE id = %(id)s"
+            params = {'name': name, 'image': image, 'location': location, 'neighbor': neighbor, 'price': price, 'stars': stars, 'score': score, 'amenities': amenities, 'id': x[0]}
+            mycursor.execute(sqlQuery, params)
+            connection.commit()
+            print(x[0])
+        print("Data updated")
 
 def storeLandmarkHotels(name, image, location, landmark, neighbor, price, stars, score, amenities):
     ## checking if the requested data is already exists or not
@@ -168,6 +174,7 @@ class HotelsSpider(scrapy.Spider):
         #         `stars`  VARCHAR(255) NULL DEFAULT NULL,
         #         `score` VARCHAR(255) NULL DEFAULT NULL,
         #         `amenities` VARCHAR(255) NULL DEFAULT NULL,
+        #         `created_at`` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         #         PRIMARY KEY(`id`)
         #       ) COLLATE='utf8_general_ci' ENGINE=INNODB AUTO_INCREMENT=1;
 
