@@ -59,8 +59,8 @@ def storeHotelDeals(place, image, location, price, stars):
     myresult = mycursor.fetchall()
     ## as there are two types of deals, that is why I have to store it twice. 
     if(len(myresult) <= 1):
-        sqlQuery = "INSERT INTO hotel_deals (place, image, location, price, stars) VALUES (%s, %s, %s, %s, %s)"
-        mycursor.execute(sqlQuery, (place, image, location, price, stars))
+        sqlQuery = "INSERT INTO hotel_deals (place, image, location, stars, price) VALUES (%s, %s, %s, %s, %s)"
+        mycursor.execute(sqlQuery, (place, image, location, stars, price))
         connection.commit()
         print(mycursor.rowcount, " record stored")
         print()
@@ -70,7 +70,7 @@ def storeHotelDeals(place, image, location, price, stars):
 
 class HotelsSpider(scrapy.Spider):
     name = "hotels"
-    location = 'Hyderabad-Hotels.7297.hotel.ksp'
+    location = 'Thailand-Hotels.238.dc.html'
     locationName = location.split('Hotels')[0][0 : len(location.split('Hotels')[0])-1]
     start_urls = [
         'http://www.kayak.co.in/' + location,
